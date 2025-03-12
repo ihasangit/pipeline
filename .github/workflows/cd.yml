@@ -27,6 +27,14 @@ jobs:
         severity: "HIGH,CRITICAL"  # Scan only high & critical vulnerabilities
         exit-code: 0  # Do not fail the pipeline, just show the warnings and more
 
+    - name: Build Docker Image
+      run: docker build -t ihasangit/pipeline:${{ github.sha }} -t ihasangit/pipeline:latest .
+
+    - name: Push Docker Image
+      run: |
+        docker push ihasangit/pipeline:${{ github.sha }}
+        docker push ihasangit/pipeline:latest
+
     - name: Run Docker Container
       run: sudo docker run -d -p 8080:8080 --name pipeline-container ihasangit/pipeline
 
@@ -66,7 +74,7 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": ":white_check_mark: CD Deployment Successful!\n:tada: The deployment for *iHassangit/pipeline* was successful! :white_check_mark:"
+                "text": ":white_check_mark: CD Deployment Successful!\n:tada: The deployment for *ihasangit/pipeline* was successful! :white_check_mark:"
               }
             }
           ]
