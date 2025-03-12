@@ -23,7 +23,7 @@ jobs:
       with:
         image-ref: "ihasan72/pipeline:latest"
         format: "table"
-        ignore-unfixed: true  # Ignore vulnerabilities that have no fixed version
+        ignore-unfixed: true  # Ignore to vulnerabilities that have no fixed version
         severity: "HIGH,CRITICAL"  # Scan only high & critical vulnerabilities
         exit-code: 0  # Do not fail the pipeline, just show the warnings and more
 
@@ -36,7 +36,7 @@ jobs:
         docker push ihasan72/pipeline:latest
 
     - name: Run Docker Container
-      run: sudo docker run -d -p 8080:8080 --name pipeline-container ihasangit/pipeline
+      run: sudo docker run -d -p 8080:8080 --name pipeline-container ihasan72/pipeline:latest
 
     - name: Send Slack Notification (Success)
       if: success()
@@ -74,7 +74,7 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": ":white_check_mark: CD Deployment Successful!\n:tada: The deployment for *ihasangit/pipeline* was successful! :white_check_mark:"
+                "text": ":white_check_mark: CD Deployment Successful!\n:tada: The deployment for *ihasan72/pipeline* was successful! :white_check_mark:"
               }
             }
           ]
