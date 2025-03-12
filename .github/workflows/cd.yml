@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Pull Docker image
-      run: sudo docker pull ihasangit/pipeline:latest
+      run: sudo docker pull ihasan72/pipeline:latest
 
     - name: Delete Old docker container
       run: sudo docker rm -f pipeline-container || true
@@ -21,19 +21,19 @@ jobs:
     - name: Security Scan with Trivy
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: "ihasangit/pipeline:latest"
+        image-ref: "ihasan72/pipeline:latest"
         format: "table"
-        ignore-unfixed: true  # Ignore to vulnerabilities that have no fixed version
+        ignore-unfixed: true  # Ignore vulnerabilities that have no fixed version
         severity: "HIGH,CRITICAL"  # Scan only high & critical vulnerabilities
         exit-code: 0  # Do not fail the pipeline, just show the warnings and more
 
     - name: Build Docker Image
-      run: docker build -t ihasangit/pipeline:${{ github.sha }} -t ihasangit/pipeline:latest .
+      run: docker build -t ihasan72/pipeline:${{ github.sha }} -t ihasan72/pipeline:latest .
 
     - name: Push Docker Image
       run: |
-        docker push ihasangit/pipeline:${{ github.sha }}
-        docker push ihasangit/pipeline:latest
+        docker push ihasan72/pipeline:${{ github.sha }}
+        docker push ihasan72/pipeline:latest
 
     - name: Run Docker Container
       run: sudo docker run -d -p 8080:8080 --name pipeline-container ihasangit/pipeline
