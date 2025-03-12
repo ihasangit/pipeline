@@ -13,22 +13,22 @@ jobs:
 
     steps:
     - name: Pull Docker image
-      run: sudo docker pull ihasan/pipeline:latest
+      run: sudo docker pull ihasangit/pipeline:latest
 
     - name: Delete Old docker container
-      run: sudo docker rm -f cicd-pipeline-container || true
+      run: sudo docker rm -f pipeline-container || true
 
     - name: Security Scan with Trivy
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: "ihasan/pipeline:latest"
+        image-ref: "ihasangit/pipeline:latest"
         format: "table"
         ignore-unfixed: true  # Ignore vulnerabilities that have no fixed version
         severity: "HIGH,CRITICAL"  # Scan only high & critical vulnerabilities
         exit-code: 0  # Do not fail the pipeline, just show the warnings and more
 
     - name: Run Docker Container
-      run: sudo docker run -d -p 8080:8080 --name cicd-pipeline-container ihasan/pipeline
+      run: sudo docker run -d -p 8080:8080 --name pipeline-container ihasangit/pipeline
 
     - name: Send Slack Notification (Success)
       if: success()
@@ -41,7 +41,7 @@ jobs:
               "fields": [
                 {
                   "type": "mrkdwn",
-                  "text": "*Ref*\n<https://github.com/ihasan/pipeline/tree/${{ github.ref_name }}|${{ github.ref }}>"
+                  "text": "*Ref*\n<https://github.com/ihasangit/pipeline/tree/${{ github.ref_name }}|${{ github.ref }}>"
                 },
                 {
                   "type": "mrkdwn",
@@ -66,7 +66,7 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": ":white_check_mark: CD Deployment Successful!\n:tada: The deployment for *iHassan/pipeline* was successful! :white_check_mark:"
+                "text": ":white_check_mark: CD Deployment Successful!\n:tada: The deployment for *iHassangit/pipeline* was successful! :white_check_mark:"
               }
             }
           ]
@@ -83,7 +83,7 @@ jobs:
               "fields": [
                 {
                   "type": "mrkdwn",
-                  "text": "*Ref*\n<https://github.com/ihasan/pipeline/tree/${{ github.ref_name }}|${{ github.ref }}>"
+                  "text": "*Ref*\n<https://github.com/ihasangit/pipeline/tree/${{ github.ref_name }}|${{ github.ref }}>"
                 },
                 {
                   "type": "mrkdwn",
@@ -108,7 +108,7 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": ":x: CD Deployment Failed!\n:warning: The deployment for *ihasan/pipeline* failed! Check GitHub Actions logs."
+                "text": ":x: CD Deployment Failed!\n:warning: The deployment for *ihasangit/pipeline* failed! Check GitHub Actions logs."
               }
             }
           ]
