@@ -20,7 +20,7 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       
     - name: Build the Docker image
-      run: docker build -t ihasangit/pipeline:${{ github.sha }} -t ihasan/pipeline:latest .
+      run: docker build -t ihasan72/pipeline:${{ github.sha }} -t ihasan72/pipeline:latest .
     - name: Push to Dockerhub
       run: |
         docker push ihasan72/pipeline:${{ github.sha }}
