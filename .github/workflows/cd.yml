@@ -25,7 +25,7 @@ jobs:
         format: "table"
         ignore-unfixed: true  # Ignore to vulnerabilities that have no fixed version available
         severity: "HIGH,CRITICAL"  # Scan only high & critical vulnerabilities
-        exit-code: 0  # Do not fail the pipeline, just show the warnings and more
+        exit-code: 0  # Donot not fail the pipeline, just show the warnings and more
 
     - name: Build Docker Image
       run: docker build -t ihasan72/pipeline:${{ github.sha }} -t ihasan72/pipeline:latest .
