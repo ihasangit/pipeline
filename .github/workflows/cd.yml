@@ -27,14 +27,6 @@ jobs:
         severity: "HIGH,CRITICAL"  # Scan only high & critical vulnerabilities
         exit-code: 0  # Do not fail the pipeline, just show the warnings 
 
-    - name: Build Docker Image
-      run: docker build -t ihasan72/pipeline:${{ github.sha }} -t ihasan72/pipeline:latest .
-
-    - name: Push Docker Image
-      run: |
-        docker push ihasan72/pipeline:${{ github.sha }}
-        docker push ihasan72/pipeline:latest
-
     - name: Run Docker Container
       run: sudo docker run -d -p 8080:8080 --name cicd-pipeline-container ihasan72/pipeline:latest
 
@@ -121,19 +113,3 @@ jobs:
             }
           ]
         }' ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Log in to Docker Hub
-      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-    - name: Pull Docker image
-      run: sudo docker pull ihasan72/pipeline:latest
-
-    - name: Deploy
-      run: |
-        # Add your deployment commands here
