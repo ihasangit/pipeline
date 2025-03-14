@@ -16,16 +16,16 @@ jobs:
       run: sudo docker pull ihasan72/pipeline:latest
 
     - name: Delete Old docker container
-      run: sudo docker rm -f pipeline-container || true
+      run: sudo docker rm -f cicd-pipeline-container || true
 
     - name: Security Scan with Trivy
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: "ihasan72/pipeline:latest"
         format: "table"
-        ignore-unfixed: true  # Ignore to vulnerabilities that have no fixed version available
+        ignore-unfixed: true  # Ignore vulnerabilities that have no fixed version
         severity: "HIGH,CRITICAL"  # Scan only high & critical vulnerabilities
-        exit-code: 0  # Donot not fail the pipeline, just show the warnings and more
+        exit-code: 0  # Do not fail the pipeline, just show the warnings 
 
     - name: Build Docker Image
       run: docker build -t ihasan72/pipeline:${{ github.sha }} -t ihasan72/pipeline:latest .
@@ -36,7 +36,7 @@ jobs:
         docker push ihasan72/pipeline:latest
 
     - name: Run Docker Container
-      run: sudo docker run -d -p 8080:8080 --name pipeline-container ihasan72/pipeline:latest
+      run: sudo docker run -d -p 8080:8080 --name cicd-pipeline-container ihasan72/pipeline:latest
 
     - name: Send Slack Notification (Success)
       if: success()
@@ -74,7 +74,7 @@ jobs:
               "type": "section",
               "text": {
                 "type": "mrkdwn",
-                "text": ":white_check_mark: CD Deployment Successful!\n:tada: The deployment for *ihasan72/pipeline* was successful! :white_check_mark:"
+                "text": ":white_check_mark: CD Deployment Successful!\n:tada: The deployment for *ihasangit/pipeline* was successful! :white_check_mark:"
               }
             }
           ]
